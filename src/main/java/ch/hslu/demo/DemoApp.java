@@ -23,27 +23,17 @@ import org.slf4j.LoggerFactory;
  */
 public final class DemoApp {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DemoApp.class);
-
-    /** X-Wert. Beispiel. */
-    private static final int COR_X = 2;
-
-    /** Y-Wert. Beispiel. */
-    private static final int COR_Y = -1;
-
-    /**
-     * Privater Konstruktor.
-     */
-    private DemoApp() {
+    public static void main(String[] args) {
+        System.out.println(fatrorialrec(90000));
     }
 
-    /**
-     * Main-Methode.
-     * @param args Startargumente.
-     */
-    public static void main(final String[] args) {
-        final Point point = new Point(COR_X, COR_Y);
-        final int quadrant = point.getQuadrant();
-        LOGGER.info("{} befindet sich in Quadrant: {}", point, quadrant);
+    public static long fatrorialrec(final long n) {
+        if ((n == 0) || (n == 1)) {
+            return  1;
+        } else {
+            return (n * fatrorialrec(n - 1));
+        }
     }
 }
+
+
