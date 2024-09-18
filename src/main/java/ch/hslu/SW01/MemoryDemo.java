@@ -1,17 +1,31 @@
 package ch.hslu.SW01;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 
 public final class MemoryDemo {
 
-    // Aufgabe 2.3 a)
+    private static final Logger LOG = LoggerFactory.getLogger(MemoryDemo.class);
+
     public static void main(final String[] args) {
+
+        // Festplatte mit 1024 Bytes erstellen
         final Memory memory = new MemorySimple(1024);
-        LOG.info(memory);
+        System.out.println(memory);
+        LOG.info(memory.toString());
+
+        // Erste Allokation von 16 Bytes
         final Allocation block1 = memory.malloc(16);
-        LOG.info(block1);
-        LOG.info(memory);
+        LOG.info(block1.toString());
+        LOG.info(memory.toString());
+
+        // Zweite Allokation von 8 Bytes
         final Allocation block2 = memory.malloc(8);
-        LOG.info(block2);
-        LOG.info(memory);
+        LOG.info(block2.toString());
+        LOG.info(memory.toString());
+
+        // Speicherfreigabe des ersten Blocks
         memory.free(block1);
+        LOG.info(memory.toString());
     }
 }
