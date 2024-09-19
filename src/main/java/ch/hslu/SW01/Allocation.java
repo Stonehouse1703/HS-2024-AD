@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public final class Allocation implements Comparable {
 
-    //---------------< Konstruktor >---------------
+    //---------------< Attribute >---------------
     private final int size;
     private final int adress;
 

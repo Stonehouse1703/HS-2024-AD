@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class MemorySimple implements Memory{
 
-    //---------------< Methoden >---------------
+    //---------------< Attribute >---------------
     private final int totalSize;
     private int usedSize = 0;
 
@@ -29,10 +29,6 @@ public class MemorySimple implements Memory{
         return allocation;
     }
 
-    /**
-     * Gibt die freien Bytes zurueck
-     * @return
-     */
     public int freeSize() {
         return totalSize - usedSize;
     }
