@@ -1,19 +1,21 @@
 package ch.hslu.SW01;
 
-import java.util.Objects;
+import java.util.*;
 
 public class MemorySimple implements Memory{
 
     //---------------< Attribute >---------------
-    private final int totalSize;
+    private int totalSize;
     private int usedSize = 0;
 
+
     //---------------< Konstruktor >---------------
-    public MemorySimple(int totalSize) {
-        if (totalSize <= 0) {
+    public MemorySimple(int size) {
+        if (size <= 0) {
             throw new IllegalArgumentException("Invalid size, must be greater than 0");
         }
-        this.totalSize = totalSize;
+        this.totalSize += size;
+
     }
 
     //---------------< Methoden >---------------
@@ -38,7 +40,7 @@ public class MemorySimple implements Memory{
      * @param allocation
      */
     public void free(Allocation allocation) {
-        usedSize -= allocation.getSize();
+        totalSize -= allocation.getSize();
     }
 
     @Override
