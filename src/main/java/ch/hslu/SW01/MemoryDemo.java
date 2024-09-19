@@ -11,13 +11,12 @@ public final class MemoryDemo {
 
         try{
             // Festplatte mit 1024 Bytes erstellen
-            final Memory memory = new MemorySimple(1024);
+            final Memory memory = new MemorySimple(5000);
             System.out.println(memory);
             LOG.info(memory.toString());
-            System.out.println(memory);
 
             // Erste Allokation von 16 Bytes
-            final Allocation block1 = memory.malloc(16);
+            final Allocation block1 = memory.malloc(1000);
             LOG.info(block1.toString());
             LOG.info(memory.toString());
 
@@ -26,9 +25,25 @@ public final class MemoryDemo {
             LOG.info(block2.toString());
             LOG.info(memory.toString());
 
+
+            final Allocation block3 = memory.malloc(8);
+            LOG.info(block3.toString());
+            LOG.info(memory.toString());
+
+
             // Speicherfreigabe des ersten Blocks
             memory.free(block1);
             LOG.info(memory.toString());
+
+
+            final Allocation block4 = memory.malloc(1000);
+            LOG.info(block4.toString());
+            LOG.info(memory.toString());
+
+            for (int i = 1; i <= memory.getSizeMap(); i++) {
+                System.out.println(memory.getStatus(i));
+            }
+
         } catch (IllegalArgumentException e) {
             LOG.error(e.getMessage());
         }
