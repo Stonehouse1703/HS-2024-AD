@@ -3,8 +3,9 @@ package ch.hslu.SW01;
 public interface Memory {
 
     Allocation malloc(int size);
-
-    String toString();
-
-    void free(Allocation block1);
+    public int freeSize();
+    public void free(Allocation allocation);
+    public boolean equals(Object o);
+    public int hashCode();
+    public String toString();
 }

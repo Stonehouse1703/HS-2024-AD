@@ -4,7 +4,7 @@ public interface Comparable {
 
     public int getAdress();
     public int getSize();
-
-    @Override
+    public boolean equals(final Object o);
+    public int hashCode();
     public String toString();
 }
