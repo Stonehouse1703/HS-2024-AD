@@ -10,6 +10,9 @@ public class MemorySimple implements Memory{
 
     //---------------< Konstruktor >---------------
     public MemorySimple(int totalSize) {
+        if (totalSize <= 0) {
+            throw new IllegalArgumentException("Invalid size, must be greater than 0");
+        }
         this.totalSize = totalSize;
     }
 
@@ -43,7 +46,7 @@ public class MemorySimple implements Memory{
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public final boolean equals(final Object o) {
         if (this == o) return true;
         return (o instanceof MemorySimple that)
                 && totalSize == that.totalSize
@@ -52,7 +55,7 @@ public class MemorySimple implements Memory{
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(totalSize, usedSize);
     }
 

@@ -14,6 +14,7 @@ public final class MemoryDemo {
             final Memory memory = new MemorySimple(1024);
             System.out.println(memory);
             LOG.info(memory.toString());
+            System.out.println(memory);
 
             // Erste Allokation von 16 Bytes
             final Allocation block1 = memory.malloc(16);
