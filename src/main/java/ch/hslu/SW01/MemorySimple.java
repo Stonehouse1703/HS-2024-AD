@@ -35,10 +35,6 @@ public class MemorySimple implements Memory{
         return totalSize - usedSize;
     }
 
-    /**
-     * Freigibt die angegebene Allokation
-     * @param allocation
-     */
     public void free(Allocation allocation) {
         totalSize -= allocation.getSize();
     }
