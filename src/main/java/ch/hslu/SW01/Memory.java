@@ -2,24 +2,15 @@ package ch.hslu.SW01;
 
 public interface Memory {
 
-    /**
-     * Erstellt einen neuen Speicherblock und überprüft ob der Speicher Platz hat.
-     * @param size
-     * @return allocation
-     */
-    Allocation malloc(int size);
+    public int getTotalSize();
+    public int getUsedSize();
+    public int getClusterSize();
 
-    /**
-     * Gibt die freien Bytes zurueck
-     * @return Verfügbarer Speicher
-     */
-    public int freeSize();
+    public Allocation malloc(final int size);
 
-    /**
-     * Löscht eine Allocation
-     */
-    public void free(Allocation allocation);
-    public boolean equals(Object o);
-    public int hashCode();
     public String toString();
+
+    public void free(final Allocation allocation);
+
+    public String getAllocations();
 }
