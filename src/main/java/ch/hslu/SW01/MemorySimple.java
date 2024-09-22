@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class MemorySimple implements Memory{
+public final class MemorySimple implements Memory{
 
     //------------------------< Attribute >-------------------------
     private int totalSize;
@@ -55,7 +55,7 @@ public class MemorySimple implements Memory{
 
         //  überprüft, ob genügend speicher vorhanden ist
         if (usedSize + size > totalSize) {
-            throw new IllegalArgumentException("No more memory left");
+            throw new IllegalArgumentException("Mem");
         }
 
         int countClusters = size / clusterSize;
