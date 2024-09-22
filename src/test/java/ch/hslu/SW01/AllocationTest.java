@@ -9,52 +9,70 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AllocationTest {
 
     @Test
-    public void testGetAdressNormalSize() {
-        Allocation allocation = new Allocation(30, 20);
-        assertEquals(30, allocation.getAdress());
-        assertEquals(20, allocation.getSize());
+    public void testGetAdressStringMultiplyPossition() {
+        Allocation allo = new Allocation(new int[]{1, 2, 3}, new int[]{4, 5, 6});
+        assertEquals("[1, 2, 3]", allo.getAdressString());
     }
 
     @Test
-    public void testGetZeroSize() {
-        Allocation allocation = new Allocation(0, 0);
-        assertEquals(0, allocation.getAdress());
-        assertEquals(0, allocation.getSize());
+    public void testGetAdressStringOnePossition() {
+        Allocation allo = new Allocation(new int[]{7}, new int[]{4});
+        assertEquals("[7]", allo.getAdressString());
     }
 
     @Test
-    public void testExceptionHandlingWithAssertJSize() {
-        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Allocation(-233, 43);
-        });
-        assertTrue(exception.getMessage().contains("Adress and size must be greater than 0"));
+    public void testGetSizeStringMultiplyPossition() {
+        Allocation allo = new Allocation(new int[]{1, 2, 3}, new int[]{4, 5, 6});
+        assertEquals("[4, 5, 6]", allo.getSizeString());
     }
 
     @Test
-    public void testExceptionHandlingWithAssertJAdress() {
-        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Allocation(233, -43);
-        });
-        assertTrue(exception.getMessage().contains("Adress and size must be greater than 0"));
+    public void testGetSizeStringOnePossition() {
+        Allocation allo = new Allocation(new int[]{7}, new int[]{1});
+        assertEquals("[1]", allo.getSizeString());
     }
 
     @Test
-    public void testEquals() {
-        EqualsVerifier.forClass(Allocation.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    public void testGetAdressMultiplyPossition() {
+        Allocation allo = new Allocation(new int[]{6, 8, 1}, new int[]{4, 5, 6});
+        assertArrayEquals(new int[]{6, 8, 1}, allo.getAdress());
     }
 
     @Test
-    void testHashCode() {
-        Allocation allocation = new Allocation(14, 50);
-        Allocation allocation2 = new Allocation(14, 50);
-        Allocation allocation3 = new Allocation(3, 50);
-        assertEquals(allocation.hashCode(), allocation2.hashCode());
-        assertNotEquals(allocation.hashCode(), allocation3.hashCode());
+    public void testGetAdressOnePossition() {
+        Allocation allo = new Allocation(new int[]{7}, new int[]{4});
+        assertArrayEquals(new int[]{7}, allo.getAdress());
+    }
+
+    @Test
+    public void testGetSizeMultiplyPossition() {
+        Allocation allo = new Allocation(new int[]{1, 2, 3}, new int[]{4, 5, 6});
+        assertArrayEquals(new int[]{4, 5, 6}, allo.getSize());
+    }
+
+    @Test
+    public void testGetSizeOnePossition() {
+        Allocation allo = new Allocation(new int[]{7}, new int[]{12});
+        assertArrayEquals(new int[]{12}, allo.getSize());
     }
 
     @Test
     public void testToString() {
-        Allocation allocation = new Allocation(14, 50);
-        assertEquals("Allocation [Adresse: 14; Size: 50]", allocation.toString());
+        Allocation allo = new Allocation(new int[]{1, 2, 3}, new int[]{4, 5, 6});
+        assertEquals("Allocation[Adresse:[1, 2, 3]; Size:[4, 5, 6]]", allo.toString());
+    }
+
+    @Test
+    public void testEqualsContract() {
+        EqualsVerifier.forClass(Allocation.class).verify();
+    }
+
+    @Test
+    void testHashCode() {
+        Allocation allo1 = new Allocation(new int[]{1, 2, 3}, new int[]{4, 5, 6});
+        Allocation allo2 = new Allocation(new int[]{1, 2, 3}, new int[]{4, 5, 6});
+        Allocation allo3 = new Allocation(new int[]{1, 2, 4}, new int[]{4, 5, 6});
+        assertEquals(allo1.hashCode(), allo2.hashCode());
+        assertNotEquals(allo1.hashCode(), allo3.hashCode());
     }
 }

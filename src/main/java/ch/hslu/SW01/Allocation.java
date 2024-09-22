@@ -1,6 +1,7 @@
 package ch.hslu.SW01;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public final class Allocation implements Comparable {
 
@@ -34,5 +35,19 @@ public final class Allocation implements Comparable {
    public String toString() {
        return "Allocation[Adresse:" + getAdressString() + "; Size:" + getSizeString() + "]";
    }
+
+    @Override
+    public final boolean equals(final Object o) {
+        if (this == o) return true;
+        return (o instanceof Allocation that)
+                && Arrays.equals(adress, that.adress)
+                && Arrays.equals(size, that.size)
+                ;
+    }
+
+    @Override
+    public final int hashCode() {
+        return Objects.hash(Arrays.hashCode(adress), Arrays.hashCode(size));
+    }
 }
 
