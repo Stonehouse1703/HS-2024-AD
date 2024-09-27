@@ -22,4 +22,6 @@ public interface Memory {
     public boolean equals(Object o);
     public int hashCode();
     public String toString();
+    public int getSizeMap();
+    public State getStatus(int auswahl);
 }

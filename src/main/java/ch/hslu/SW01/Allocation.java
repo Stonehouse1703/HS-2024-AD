@@ -7,8 +7,6 @@ public final class Allocation implements Comparable {
     //---------------< Attribute >---------------
     private final int size;
     private final int adress;
-    private State state = State.ALLOCATED;
-
 
     //---------------< Konstruktor >---------------
     public Allocation(final int adress, final int size) {
@@ -29,14 +27,6 @@ public final class Allocation implements Comparable {
     }
 
     //---------------< Methoden >---------------
-    public int getState() {
-        return state.getValue();
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
