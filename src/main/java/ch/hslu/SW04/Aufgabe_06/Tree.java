@@ -2,90 +2,96 @@ package ch.hslu.SW04.Aufgabe_06;
 
 public class Tree<T> {
 
-    //------------< Attribute >------------
-    Inhalt knoten;
-    int size;
-    int hight;
+    private Inhalt<T> wurzel;
+    private int size;
+    private int height;
 
-    //------------< Konstruktor >------------
-    public Tree(){
-        this.knoten = null;
-        this.size = -1;
-        this.hight = -1;
+    public Tree() {
+        this.wurzel = null;
+        this.size = 0;
+        this.height = -1;
     }
 
-    //------------< Methoden >------------
-    public int getSize(){
+    public int getSize() {
         return this.size;
     }
 
-    public int getHight(){
-        return this.hight;
+    public int getHeight() {
+        return this.height;
     }
 
-    public void addToTree(int data) {
-        if (size < 0) {
-            // Create the root node if the tree is empty
-            Inhalt newData = new Inhalt(data);
-            this.knoten = newData;
-            size++;
-            hight++;
-        } else {
-            Inhalt current = knoten;
-            Inhalt parent = null;
-            int currentHight = 0;
-
-            // Traverse the tree to find the correct position
-            while (current != null) {
-                parent = current;
-                if (data < current.getData()) {
-                    current = current.getLeft();  // Move left
-                    currentHight++;
-                } else if (data > current.getData()) {
-                    current = current.getRight();  // Move right
-                    currentHight++;
-                } else {
-                    // Data already exists in the tree, do not insert duplicates
-                    throw new IllegalArgumentException("Inhalt bereits vorhanden");
-                }
-            }
-
-            // At this point, 'current' is null and 'parent' is the node where the new node should be added
-            Inhalt newData = new Inhalt(data);
-            if (data < parent.getData()) {
-                parent.setLeft(newData);  // Add as the left child
-            } else {
-                parent.setRight(newData);  // Add as the right child
-            }
-
-            size++;
-            if(currentHight > hight){
-                hight = currentHight;
-            }
-        }
-    }
-
-    public void search(int data){
-
-        if (knoten == null){
-            throw new IllegalArgumentException("aktuell sind keine Elemente vorhanden");
-        }
-
+    public String searchWithStringAusgabe(T datei) {
         String pfad = "";
+        int hashWertFile = datei.hashCode();
+        Inhalt<T> currentFile = wurzel;
 
-        Inhalt current = knoten;
-
-        while (data != current.getData()){
-            if (data < current.getData()){
-                pfad += "links - ";
-                current = current.getLeft();
-            } else if (data > current.getData()){
-                pfad += "rechts - ";
-                current = current.getRight();
+        while (currentFile != null) {
+            if (hashWertFile < currentFile.getHashCode()) {
+                currentFile = currentFile.getLeft();
+                pfad += "l";
+            } else if (hashWertFile > currentFile.getHashCode()) {
+                currentFile = currentFile.getRight();
+                pfad += "r";
+            } else {
+                return pfad;  // Datei gefunden, Rückgabe des Pfades
             }
         }
 
-        System.out.println("Der gesuchte Inhalt: " + data + " hat folgenden Pfad: " + pfad);
+        return "Datei nicht vorhanden";
     }
 
+    public Inhalt<T> search(T datei) {
+        int hashWertFile = datei.hashCode();
+        Inhalt<T> currentFile = wurzel;
+
+        while (currentFile != null) {
+            if (hashWertFile < currentFile.getHashCode()) {
+                currentFile = currentFile.getLeft();
+            } else if (hashWertFile > currentFile.getHashCode()) {
+                currentFile = currentFile.getRight();
+            } else {
+                return currentFile;  // Datei gefunden
+            }
+        }
+
+        return null;  // Datei nicht gefunden
+    }
+
+    public void add(T datei) {
+        Inhalt<T> newFile = new Inhalt<>(datei);
+        if (wurzel == null) {
+            wurzel = newFile;
+            size++;
+            height++;
+            return;
+        }
+
+        Inhalt<T> parent = null;
+        Inhalt<T> currentFile = wurzel;
+        int currentHeight = 1;  // Startet mit der Wurzelhöhe
+
+        while (currentFile != null) {
+            parent = currentFile;
+            if (datei.hashCode() < currentFile.getHashCode()) {
+                currentFile = currentFile.getLeft();
+                currentHeight++;
+            } else if (datei.hashCode() > currentFile.getHashCode()) {
+                currentFile = currentFile.getRight();
+                currentHeight++;
+            } else {
+                throw new IllegalArgumentException("Datei bereits vorhanden.");
+            }
+        }
+
+        // Neuen Knoten an die korrekte Stelle setzen
+        if (datei.hashCode() < parent.getHashCode()) {
+            parent.setLeft(newFile);
+        } else {
+            parent.setRight(newFile);
+        }
+
+        size++;  // Größe erhöhen
+        height = Math.max(height, currentHeight);  // Höhe anpassen
+    }
 }
+
