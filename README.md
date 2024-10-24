@@ -7,3 +7,4 @@
 **D1** -> SW03 - Array Listen Queue Stack  [LINK](src/main/java/ch/hslu/SW03)  
 **D2** -> SW04 - Bäume  [LINK](src/main/java/ch/hslu/SW04)  
 **D3** -> SW05 - HashesJavaPraxis  [LINK](src/main/java/ch/hslu/SW05)  
+**N1** -> SW 06 - ThreadSynch [LINK](src/main/java/ch/hslu/SW06)  
