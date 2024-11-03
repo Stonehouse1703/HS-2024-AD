@@ -15,12 +15,11 @@
  */
 package ch.hslu.sw07.Aufgabe_03_Signalgeber;
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Demonstration verschiedener Initialisierungen eines nach oben begrenzten
- * Semaphors.
+ * Demonstration eines Semaphors.
  */
 public final class DemoSema {
 
@@ -36,42 +35,42 @@ public final class DemoSema {
      * Main-Demo.
      *
      * @param args not used.
-     * @throws InterruptedException wenn das warten unterbrochen wird.
+     * @throws InterruptedException wenn das Warten unterbrochen wird.
      */
     public static void main(final String[] args) throws InterruptedException {
         try {
             new Semaphore(4, 3);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             LOG.debug(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(3, 3);
             sema.release();
-        } catch (ArithmeticException e) {
+        } catch (Exception e) {
             LOG.debug(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(0, 3);
             sema.release(4);
-        } catch (ArithmeticException e) {
+        } catch (Exception e) {
             LOG.debug(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(3, 3);
             sema.acquire(4);
-        } catch (ArithmeticException e) {
+        } catch (Exception e) {
             LOG.debug(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(3, 3);
             sema.acquire(-1);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             LOG.debug(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(1, 3);
             sema.release(-1);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             LOG.debug(e.getMessage());
         }
     }

@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw07.Aufgabe_04_BoundedBuffer;
+package ch.hslu.sw07.Aufgabe_04_Buffer;
+
+import java.util.concurrent.TimeoutException;
 
 /**
  * Puffer (First In First Out) mit einer begrenzten Kapazität. Der Puffer ist thread sicher.
@@ -52,7 +54,7 @@ public interface Buffer<T> {
      * @return gelesenes Element.
      * @throws InterruptedException falls das Warten unterbrochen wird.
      */
-    T remove(final long millis) throws InterruptedException;
+    T remove(final long millis) throws InterruptedException, TimeoutException;
 
     /**
      * Gibt, ob der Puffer leer ist.

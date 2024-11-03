@@ -13,39 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw07.Aufgabe_04_BoundedBuffer;
+package ch.hslu.sw07.Aufgabe_04_Buffer;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 /**
- * Konsument, der soviele Werte aus einer Queue liest, wie er nur kann.
+ * Produzent, der eine maximale Anzahl Werte produziert und diese in eine Queue speichert.
  */
-public final class Consumer implements Runnable {
+public final class Producer implements Runnable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
     private final BoundedBuffer<Integer> queue;
+    private final int maxRange;
     private long sum;
 
     /**
-     * Erzeugt einen Konsumenten, der soviel Integer-Werte ausliest, wie er nur kann.
-     * @param queue Queue zum Lesen der Integer-Werte.
+     * Erzeugt einen Produzent, der eine bestimmte Anzahl Integer-Werte produziert.
+     * @param queue Queue zum Speichern der Integer-Werte.
+     * @param max Anzahl Integer-Werte.
      */
-    public Consumer(final BoundedBuffer<Integer> queue) {
+    public Producer(final BoundedBuffer<Integer> queue, final int max) {
         this.queue = queue;
+        this.maxRange = max;
         this.sum = 0;
     }
 
     @Override
     public void run() {
-        while (true) {
+        for (int i = 0; i < maxRange; i++) {
             try {
-                Integer temp = queue.remove(10);
-                if (temp == null) {
-                    LOG.info("Consumer get timeout");
+                if (!queue.add(i,10)) {
+                    LOG.info("Producer put timeout");
                     break;
                 }
-                sum += temp;
+                sum += i;
             } catch (InterruptedException ex) {
                 return;
             }
@@ -53,7 +55,7 @@ public final class Consumer implements Runnable {
     }
 
     /**
-     * Liefert die Summe aller ausgelesener Werte.
+     * Liefert die Summe aller gespeicherter Werte.
      * @return Summe.
      */
     public long getSum() {

@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw07.Aufgabe_04_BoundedBuffer;
+package ch.hslu.sw07.Aufgabe_04_Buffer;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
- * Puffer nach dem First In First Out Prinzip mit einer begrenzten Kapazität.
+ * Puffer nach dem First in First Out Prinzip mit einer begrenzten Kapazität.
  * Der Puffer ist thread sicher.
  *
- * @param <T> Elememente des Buffers
+ * @param <T> Elemente des Buffers
  */
 public final class BoundedBuffer<T> implements Buffer<T> {
 
@@ -63,26 +65,43 @@ public final class BoundedBuffer<T> implements Buffer<T> {
 
     @Override
     public boolean add(T elem, long millis) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (putSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
+            synchronized (queue) {
+                queue.addFirst(elem);
+            }
+            takeSema.release();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public T remove(long millis) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public T remove(long millis) throws InterruptedException, TimeoutException {
+        if (takeSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
+            T elem;
+            synchronized (queue) {
+                elem = queue.removeLast();
+            }
+            putSema.release();
+            return elem;
+        } else {
+            throw new TimeoutException("Unable to remove element, the request timed out.");
+        }
     }
 
     @Override
     public boolean empty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.takeSema.availablePermits() < 1;
     }
 
     @Override
     public boolean full() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return !this.empty();
     }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.queue.size();
     }
 }

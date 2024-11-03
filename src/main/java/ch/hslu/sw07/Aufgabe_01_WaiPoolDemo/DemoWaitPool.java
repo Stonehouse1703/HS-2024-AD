@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw07.Aufgabe_01_WaitPoolDemo;
+package ch.hslu.sw07.Aufgabe_01_WaiPoolDemo;
 
 /**
  * Demonstration eines Wait-Pools.
@@ -37,6 +37,8 @@ public final class DemoWaitPool {
         final MyTask waiter = new MyTask(LOCK);
         new Thread(waiter).start();
         Thread.sleep(1000);
-        LOCK.notify();
+        synchronized (LOCK) { // Fügen Sie einen synchronized-Block hinzu
+            LOCK.notify();
+        }
     }
 }

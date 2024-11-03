@@ -18,6 +18,10 @@ package ch.hslu.sw07.Aufgabe_02_Pferderennen;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.Semaphore;
+
 /**
  * Eine Rennbahn für das Pferderennen.
  */
@@ -25,6 +29,7 @@ public final class Turf {
 
     private static final Logger LOG = LoggerFactory.getLogger(Turf.class);
     private static final int HORSES = 5;
+    private static final Semaphore readySignal = new Semaphore(0);
 
     /**
      * Privater Konstruktor.
@@ -36,12 +41,26 @@ public final class Turf {
      * Main-Demo.
      * @param args not used.
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws InterruptedException {
         final Synch starterBox = new Latch();
+        final Collection<Thread> threads = new ArrayList<>();
         for (int i = 1; i <= HORSES; i++) {
-            Thread.startVirtualThread(new RaceHorse(starterBox, "Horse " + i));
+            Thread thread = Thread.startVirtualThread(new RaceHorse(starterBox, readySignal,"Rennpferd " + i));
+            threads.add(thread);
         }
-        LOG.info("Start...");
+
+        readySignal.acquire(HORSES);
+
+        LOG.info("-----------------------------< Start >-----------------------------");
         starterBox.release();
+
+        for (Thread thread : threads){
+            try{
+                thread.join();
+            } catch (InterruptedException e) {
+                LOG.warn(e.getMessage());
+            }
+        }
+
     }
 }

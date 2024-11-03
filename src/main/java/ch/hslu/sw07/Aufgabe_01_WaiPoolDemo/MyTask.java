@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw07.Aufgabe_01_WaitPoolDemo;
+package ch.hslu.sw07.Aufgabe_01_WaiPoolDemo;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public final class MyTask implements Runnable {
         LOG.info("warten...");
         synchronized (lock) {
             try {
-                wait();
+                lock.wait(); // Verwenden Sie "lock" hier
             } catch (InterruptedException ex) {
                 /* Exception handling... */
                 return;
@@ -47,4 +47,5 @@ public final class MyTask implements Runnable {
         }
         LOG.info("...aufgewacht");
     }
+
 }

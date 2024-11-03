@@ -16,6 +16,7 @@
 package ch.hslu.sw07.Aufgabe_02_Pferderennen;
 
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -27,6 +28,7 @@ public final class RaceHorse implements Runnable {
 
     private static final Logger LOG = LoggerFactory.getLogger(RaceHorse.class);
     private final Synch startSignal;
+    private final Semaphore readySignal;
     private final String name;
     private final Random random;
 
@@ -36,22 +38,25 @@ public final class RaceHorse implements Runnable {
      * @param startSignal Starterbox.
      * @param name Name des Pferdes.
      */
-    public RaceHorse(final Synch startSignal, final String name) {
+    public RaceHorse(final Synch startSignal, final Semaphore readySignal, final String name) {
         this.startSignal = startSignal;
+        this.readySignal = readySignal;
         this.name = name;
         this.random = new Random();
     }
 
     @Override
     public void run() {
-        LOG.info("Rennpferd {} geht in die Box.", name);
+        LOG.info("{} geht in die Box.", name);
         try {
+            readySignal.release();
             startSignal.acquire();
-            LOG.info("Rennpferd {} laeuft los...", name);
+            LOG.info("{} laeuft los...", name);
             Thread.sleep(random.nextInt(3000));
         } catch (InterruptedException ex) {
             LOG.debug(ex.getMessage(), ex);
         }
-        LOG.info("Rennpferd {} ist im Ziel.", name);
+        LOG.info("{} ist im Ziel.", name);
     }
+
 }

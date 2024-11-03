@@ -13,49 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw07.Aufgabe_04_BoundedBuffer;
+package ch.hslu.sw07.Aufgabe_04_Buffer;
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeoutException;
 
 /**
- * Produzent, der eine maximale Anzahl Werte produziert und diese in eine Queue speichert.
+ * Konsument, der so viele Werte aus einer Queue liest, wie er nur kann.
  */
-public final class Producer implements Runnable {
+public final class Consumer implements Runnable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
     private final BoundedBuffer<Integer> queue;
-    private final int maxRange;
     private long sum;
 
     /**
-     * Erzeugt einen Produzent, der eine bestimmte Anzahl Integer-Werte produziert.
-     * @param queue Queue zum Speichern der Integer-Werte.
-     * @param max Anzahl Integer-Werte.
+     * Erzeugt einen Konsumenten, der soviel Integer-Werte ausliest, wie er nur kann.
+     *
+     * @param queue Queue zum Lesen der Integer-Werte.
      */
-    public Producer(final BoundedBuffer<Integer> queue, final int max) {
+    public Consumer(final BoundedBuffer<Integer> queue) {
         this.queue = queue;
-        this.maxRange = max;
         this.sum = 0;
     }
 
     @Override
     public void run() {
-        for (int i = 0; i < maxRange; i++) {
+        while (true) {
             try {
-                if (!queue.add(i,10)) {
-                    LOG.info("Producer put timeout");
+                Integer temp = queue.remove(10);
+                if (temp == null) {
+                    LOG.info("Consumer get timeout");
                     break;
                 }
-                sum += i;
-            } catch (InterruptedException ex) {
+                sum += temp;
+            } catch (InterruptedException | TimeoutException ex) {
                 return;
             }
         }
     }
 
     /**
-     * Liefert die Summe aller gespeicherter Werte.
+     * Liefert die Summe aller ausgelesener Werte.
+     *
      * @return Summe.
      */
     public long getSum() {

@@ -22,13 +22,23 @@ package ch.hslu.sw07.Aufgabe_02_Pferderennen;
  */
 public class Latch implements Synch {
 
+
+    private boolean isOpen = false;
+
     @Override
     public void acquire() throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        synchronized (this){
+            while (!isOpen){
+                this.wait();
+            }
+        }
     }
 
     @Override
     public void release() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        synchronized (this){
+            isOpen = true;
+            this.notifyAll();
+        }
     }
 }

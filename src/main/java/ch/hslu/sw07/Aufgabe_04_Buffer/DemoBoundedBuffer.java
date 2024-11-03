@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw07.Aufgabe_04_BoundedBuffer;
+package ch.hslu.sw07.Aufgabe_04_Buffer;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
