@@ -62,5 +62,7 @@ public final class Turf {
             }
         }
 
+        LOG.info("🏁");
+
     }
 }

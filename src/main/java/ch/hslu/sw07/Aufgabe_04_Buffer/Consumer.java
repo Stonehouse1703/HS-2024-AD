@@ -26,8 +26,8 @@ import java.util.concurrent.TimeoutException;
 public final class Consumer implements Runnable {
 
     private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
-    private final BoundedBuffer<Integer> queue;
-    private long sum;
+    private final BoundedBuffer<Integer> queue; // Die Warteschlange, aus der die Integer-Werte gelesen werden.
+    private long sum; // Summe der ausgelesenen Werte.
 
     /**
      * Erzeugt einen Konsumenten, der soviel Integer-Werte ausliest, wie er nur kann.
@@ -35,21 +35,29 @@ public final class Consumer implements Runnable {
      * @param queue Queue zum Lesen der Integer-Werte.
      */
     public Consumer(final BoundedBuffer<Integer> queue) {
-        this.queue = queue;
-        this.sum = 0;
+        this.queue = queue; // Initialisiert die Warteschlange für den Konsumenten.
+        this.sum = 0; // Setzt die Summe initial auf 0.
     }
 
     @Override
     public void run() {
+        // Endlosschleife, um kontinuierlich Werte aus der Warteschlange zu konsumieren.
         while (true) {
             try {
+                // Versucht, ein Element aus der Warteschlange zu entfernen, mit einem Timeout von 10 Millisekunden.
                 Integer temp = queue.remove(10);
+                // Wenn kein Element innerhalb des Timeouts entfernt werden kann, wird temp null.
                 if (temp == null) {
-                    LOG.info("Consumer get timeout");
-                    break;
+                    LOG.info("Consumer get timeout"); // Protokolliert, wenn der Timeout erreicht wird.
+                    break; // Beendet die Schleife.
                 }
+                // Summiert den ausgelesenen Wert.
                 sum += temp;
-            } catch (InterruptedException | TimeoutException ex) {
+            } catch (InterruptedException ex) {
+                // Beendet die Ausführung, wenn der Thread unterbrochen wird.
+                return;
+            } catch (TimeoutException ex) {
+                // Bei Timeout-Exzeption wird die Schleife ebenfalls beendet.
                 return;
             }
         }
@@ -61,6 +69,6 @@ public final class Consumer implements Runnable {
      * @return Summe.
      */
     public long getSum() {
-        return sum;
+        return sum; // Gibt die Summe der konsumierten Werte zurück.
     }
 }

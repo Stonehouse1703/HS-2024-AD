@@ -23,32 +23,37 @@ import org.slf4j.Logger;
  */
 public final class Producer implements Runnable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
-    private final BoundedBuffer<Integer> queue;
-    private final int maxRange;
-    private long sum;
+    private static final Logger LOG = LoggerFactory.getLogger(Producer.class); // Logger für das Protokollieren von Ereignissen
+    private final BoundedBuffer<Integer> queue; // Die Warteschlange, in die die Integer-Werte geschrieben werden.
+    private final int maxRange; // Die maximale Anzahl an Werten, die produziert werden sollen.
+    private long sum; // Summe der produzierten Werte.
 
     /**
      * Erzeugt einen Produzent, der eine bestimmte Anzahl Integer-Werte produziert.
+     *
      * @param queue Queue zum Speichern der Integer-Werte.
      * @param max Anzahl Integer-Werte.
      */
     public Producer(final BoundedBuffer<Integer> queue, final int max) {
-        this.queue = queue;
-        this.maxRange = max;
-        this.sum = 0;
+        this.queue = queue; // Initialisiert die Warteschlange für den Produzenten.
+        this.maxRange = max; // Setzt die maximale Anzahl an zu produzierenden Werten.
+        this.sum = 0; // Setzt die Summe initial auf 0.
     }
 
     @Override
     public void run() {
+        // Schleife, um die maximal definierte Anzahl an Werten zu produzieren.
         for (int i = 0; i < maxRange; i++) {
             try {
-                if (!queue.add(i,10)) {
-                    LOG.info("Producer put timeout");
-                    break;
+                // Versucht, den aktuellen Wert in die Warteschlange hinzuzufügen, mit einem Timeout von 10 Millisekunden.
+                if (!queue.add(i, 10)) {
+                    LOG.info("Producer put timeout"); // Protokolliert, wenn der Timeout erreicht wird.
+                    break; // Beendet die Schleife, wenn der Timeout erreicht wurde.
                 }
+                // Summiert den produzierten Wert.
                 sum += i;
             } catch (InterruptedException ex) {
+                // Beendet die Ausführung, wenn der Thread unterbrochen wird.
                 return;
             }
         }
@@ -56,9 +61,10 @@ public final class Producer implements Runnable {
 
     /**
      * Liefert die Summe aller gespeicherter Werte.
+     *
      * @return Summe.
      */
     public long getSum() {
-        return sum;
+        return sum; // Gibt die Summe der produzierten Werte zurück.
     }
 }
