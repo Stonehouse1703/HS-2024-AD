@@ -56,7 +56,7 @@ public final class Semaphore {
         if (limit < 0){
             throw new IllegalArgumentException("limit darf nicht unter 0 sein, aktuell: " + limit);
         }
-        if (limit != 0 && limit < permits) {
+        if (limit != 0 && limit <= permits) {
             throw new IllegalArgumentException("limit muss gleich oder grösser als permits sein");
         }
 
@@ -89,7 +89,7 @@ public final class Semaphore {
      */
     public synchronized void acquire(final int permits) throws InterruptedException {
         if (permits < 1) {
-            throw new IllegalArgumentException("permit kann icht unter 1 sein");
+            throw new IllegalArgumentException("permit kann nicht unter 1 sein");
         }
         if (permits > this.limit){
             throw new IllegalArgumentException("Es können keine " + permits + " Berechtigungen erworben werden, da das Semaphore-Limit auf " + this.limit + " Berechtigungen gesetzt ist.");
@@ -100,6 +100,8 @@ public final class Semaphore {
             count -= permits;
         }
         sema -= permits;
+
+
     }
 
     /**

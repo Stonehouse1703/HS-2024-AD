@@ -28,7 +28,7 @@ import java.util.concurrent.Semaphore;
 public final class Turf {
 
     private static final Logger LOG = LoggerFactory.getLogger(Turf.class);
-    private static final int HORSES = 5;
+    private static final int HORSES = 15;
     private static final Semaphore readySignal = new Semaphore(0);
 
     /**
@@ -47,9 +47,12 @@ public final class Turf {
         for (int i = 1; i <= HORSES; i++) {
             Thread thread = Thread.startVirtualThread(new RaceHorse(starterBox, readySignal,"Rennpferd " + i));
             threads.add(thread);
+            //new Thread(new RaceHorse(starterBox, readySignal,"Rennpferd " + i)).start();
+
         }
 
         readySignal.acquire(HORSES);
+
 
         LOG.info("-----------------------------< Start >-----------------------------");
         starterBox.release();

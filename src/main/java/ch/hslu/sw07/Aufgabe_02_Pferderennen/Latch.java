@@ -24,21 +24,22 @@ public class Latch implements Synch {
 
 
     private boolean isOpen = false;
+    private final Object lock = new Object();
 
     @Override
     public void acquire() throws InterruptedException {
-        synchronized (this){
+        synchronized (lock){
             while (!isOpen){
-                this.wait();
+                lock.wait();
             }
         }
     }
 
     @Override
     public void release() {
-        synchronized (this){
+        synchronized (lock){
             isOpen = true;
-            this.notifyAll();
+            lock.notifyAll();
         }
     }
 }

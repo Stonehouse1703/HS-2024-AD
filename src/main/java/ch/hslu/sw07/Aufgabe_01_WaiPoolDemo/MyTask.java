@@ -39,7 +39,7 @@ public final class MyTask implements Runnable {
         LOG.info("warten...");
         synchronized (lock) {
             try {
-                lock.wait(); // Verwenden Sie "lock" hier
+                lock.wait();
             } catch (InterruptedException ex) {
                 /* Exception handling... */
                 return;
