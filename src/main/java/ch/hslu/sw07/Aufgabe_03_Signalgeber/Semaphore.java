@@ -21,9 +21,9 @@ package ch.hslu.sw07.Aufgabe_03_Signalgeber;
  */
 public final class Semaphore {
 
-    private int sema; // Semaphorenzähler
-    private int count; // Anzahl der wartenden Threads.
-    private int limit; // Limit für Anzahl Pasiersignale. 0 -> kein Limit
+    private int sema; // Semaphorenzähler (schlüssel)
+    private int count; // Anzahl der wartenden Threads. (wartende personen)
+    private int limit; // Limit für Anzahl Pasiersignale. 0 -> kein Limit (anzahl Toiletten)
 
     /**
      * Erzeugt ein Semaphore mit 0 Passiersignalen.

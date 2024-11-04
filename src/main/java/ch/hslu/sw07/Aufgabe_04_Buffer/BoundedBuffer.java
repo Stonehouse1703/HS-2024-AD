@@ -49,7 +49,7 @@ public final class BoundedBuffer<T> implements Buffer<T> {
     @Override
     public void add(final T elem) throws InterruptedException {
         putSema.acquire(); // Wartet, bis ein Platz im Puffer verfügbar ist.
-        synchronized (queue) { // Synchronisiert den Zugriff auf die Warteschlange.
+        synchronized (queue) {
             queue.addFirst(elem); // Fügt das Element am Anfang der Warteschlange hinzu.
         }
         takeSema.release(); // Erhöht die Anzahl der konsumierbaren Elemente.
@@ -59,7 +59,7 @@ public final class BoundedBuffer<T> implements Buffer<T> {
     public T remove() throws InterruptedException {
         takeSema.acquire(); // Wartet, bis ein Element im Puffer vorhanden ist.
         T elem;
-        synchronized (queue) { // Synchronisiert den Zugriff auf die Warteschlange.
+        synchronized (queue) {
             elem = queue.removeLast(); // Entfernt das letzte Element der Warteschlange.
         }
         putSema.release(); // Erhöht die Anzahl der produzierbaren Elemente.
@@ -68,49 +68,43 @@ public final class BoundedBuffer<T> implements Buffer<T> {
 
     @Override
     public boolean add(T elem, long millis) throws InterruptedException {
-        // Versucht, ein Element hinzuzufügen, wartet maximal millis Millisekunden.
         if (putSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
-            synchronized (queue) { // Synchronisiert den Zugriff auf die Warteschlange.
-                queue.addFirst(elem); // Fügt das Element am Anfang der Warteschlange hinzu.
+            synchronized (queue) {
+                queue.addFirst(elem);
             }
-            takeSema.release(); // Erhöht die Anzahl der konsumierbaren Elemente.
-            return true; // Erfolgreich hinzugefügt.
+            takeSema.release();
+            return true;
         } else {
-            return false; // Timeout erreicht, kein Element hinzugefügt.
+            return false;
         }
     }
 
     @Override
     public T remove(long millis) throws InterruptedException, TimeoutException {
-        // Versucht, ein Element zu entfernen, wartet maximal millis Millisekunden.
         if (takeSema.tryAcquire(millis, TimeUnit.MILLISECONDS)) {
             T elem;
-            synchronized (queue) { // Synchronisiert den Zugriff auf die Warteschlange.
-                elem = queue.removeLast(); // Entfernt das letzte Element der Warteschlange.
+            synchronized (queue) {
+                elem = queue.removeLast();
             }
-            putSema.release(); // Erhöht die Anzahl der produzierbaren Elemente.
-            return elem; // Gibt das entfernte Element zurück.
+            putSema.release();
+            return elem;
         } else {
-            // Wenn kein Element innerhalb der Zeit entfernt werden konnte, wird eine Ausnahme geworfen.
             throw new TimeoutException("Unable to remove element, the request timed out.");
         }
     }
 
     @Override
     public boolean empty() {
-        // Überprüft, ob der Puffer leer ist.
         return this.takeSema.availablePermits() < 1; // Es gibt keine konsumierbaren Elemente.
     }
 
     @Override
     public boolean full() {
-        // Überprüft, ob der Puffer voll ist.
-        return !this.empty(); // Der Puffer ist voll, wenn er nicht leer ist.
+        return !this.empty();
     }
 
     @Override
     public int size() {
-        // Gibt die Anzahl der aktuell im Puffer gespeicherten Elemente zurück.
-        return this.queue.size(); // Gibt die Größe der Warteschlange zurück.
+        return this.queue.size();
     }
 }
