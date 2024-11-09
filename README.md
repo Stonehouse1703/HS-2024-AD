@@ -9,3 +9,4 @@
 **D3** -> SW05 - HashesJavaPraxis  [LINK](src/main/java/ch/hslu/SW05)  
 **N1** -> SW06 - ThreadSynch [LINK](src/main/java/ch/hslu/SW06)  (nicht alles gemacht)  
 **N2** -> SW07 - ThreadSteuerung [LINK](src/main/java/ch/hslu/SW07)
+**N3** -> SW08 - WeiterführendeKonzepte [LINK](src/main/java/ch/hslu/SW08)
