@@ -15,11 +15,13 @@
  */
 package ch.hslu.sw08.Aufgabe_03_Bankgeschäfte;
 
+import java.util.concurrent.Callable;
+
 /**
  * Bankauftrag, der der von einem Quell-Bankkonto einen Betrag an ein Ziel-Bankkonto überweist. Die
  * Überweisung wird in Mircoüberweisungen aufgeteilt.
  */
-public final class AccountTask implements Runnable {
+public final class AccountTask implements Callable {
 
     private final BankAccount source;
     private final BankAccount target;
@@ -38,10 +40,11 @@ public final class AccountTask implements Runnable {
     }
 
     @Override
-    public void run() {
+    public Object call() {
         for (int n = 0; n < amount; n++) {
             source.transfer(target, 1);
         }
+        return null;
     }
 
 }
