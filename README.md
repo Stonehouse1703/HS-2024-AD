@@ -1,5 +1,10 @@
 # Algorithmen & Datenstrukturen  - AD - HS 2024
 
+**Beachte: nicht alle Aufgaben wurden Vollständig gemacht und sind auch nicht für Präsentation angedacht.**  
+**meine Präsentationen waren:**  
+- **SW01 - EntwicklungIntro** 
+- **SW07 - ThreadSteuerung**
+
 ## Inhalt
 
 **EO** -> SW01 - EntwicklungIntro [LINK](src/main/java/ch/hslu/SW01)  
@@ -9,4 +14,5 @@
 **D3** -> SW05 - HashesJavaPraxis  [LINK](src/main/java/ch/hslu/SW05)  
 **N1** -> SW06 - ThreadSynch [LINK](src/main/java/ch/hslu/sw06)  (nicht alles gemacht)  
 **N2** -> SW07 - ThreadSteuerung [LINK](src/main/java/ch/hslu/sw07)  
-**N3** -> SW08 - WeiterführendeKonzepte [LINK](src/main/java/ch/hslu/sw08)
+**N3** -> SW08 - WeiterführendeKonzepte [LINK](src/main/java/ch/hslu/sw08)  
+**A1** -> SW09 - Sortieren1 [LINK](src/main/java/ch/hslu/sw09)
