@@ -46,5 +46,54 @@ public class Sort {
             }
         }
     }
+
+    public static void selectionSortDIY(final int[] array){
+        int position = 0;
+        int lowestNumber = Integer.MAX_VALUE;
+
+        for (int j = 0; j < array.length; j++){
+            for (int i = j; i < array.length; i++){
+                if(array[i] < lowestNumber){
+                    lowestNumber = array[i];
+                    position = i;
+                }
+            }
+
+            if(array[j] > lowestNumber){
+                array[position] = array[j];
+                array[j] = lowestNumber;
+            }
+
+            lowestNumber = Integer.MAX_VALUE;
+            position = 0;
+        }
+    }
+
+    public static void shellSortDIY(final int[] array) {
+        int n = array.length;
+        int zwischenspeicher;
+
+        // Schritte definieren
+        int[] schritte = {4, 2, 1};
+
+        // Gehe durch die Schrittweiten
+        for (int schritt : schritte) {
+            // Sortiere Elemente, die durch die aktuelle Schrittweite getrennt sind
+            for (int i = schritt; i < n; i++) {
+                zwischenspeicher = array[i];
+                int j = i;
+
+                // Verschiebe Elemente innerhalb der Teilgruppe, die größer als zwischenspeicher sind
+                while (j >= schritt && array[j - schritt] > zwischenspeicher) {
+                    array[j] = array[j - schritt];
+                    j -= schritt;
+                }
+
+                // Setze das Element an die richtige Position
+                array[j] = zwischenspeicher;
+            }
+        }
+    }
+
 }
 

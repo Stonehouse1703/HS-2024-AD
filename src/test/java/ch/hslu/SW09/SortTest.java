@@ -38,5 +38,19 @@ public class SortTest {
         assertSorted(data); // Prüfe, ob das Array korrekt sortiert ist
     }
 
+    @Test
+    void testSelctionSortDiy() {
+        Sort.selectionSortDIY(data); // Sortiere das Array
+        System.out.println(Arrays.toString(data)); // Ausgabe des sortierten Arrays
+        assertSorted(data); // Prüfe, ob das Array korrekt sortiert ist
+    }
+
+    @Test
+    void testShellSortDIY() {
+        Sort.shellSortDIY(data); // Sortiere das Array
+        System.out.println(Arrays.toString(data)); // Ausgabe des sortierten Arrays
+        assertSorted(data); // Prüfe, ob das Array korrekt sortiert ist
+    }
+
 
 }
