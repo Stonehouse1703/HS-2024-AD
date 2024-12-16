@@ -2,6 +2,7 @@ package ch.hslu.sw02.List;
 
 import ch.hslu.sw02.Person;
 
+
 public class Main {
 
     public static void main(String[] args) {

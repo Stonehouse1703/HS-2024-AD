@@ -19,15 +19,19 @@ public class Stack<T> {
     }
 
     public void push(T element){
-        if (size >= array.size()){
-            return;
+        if (size == array.size() - 1){
+            throw new RuntimeException();
         }
-        array.set(size, element);
-        size++;
+        array.add(size, element);
+        this.size++;
     }
 
     public T pop(){
-
+        if (size <= 0){
+            return null;
+        }
+        this.size--;
+        return (array.get(size));
     }
 
 
